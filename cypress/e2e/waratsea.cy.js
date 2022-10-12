@@ -1,11 +1,10 @@
 /// <reference types="cypress" />
 
 import selectors from "../support/constants/selectors"
-import urls from "../support/constants/urls"
 
 describe('War at Sea Card Database', () => {
   beforeEach(() => {
-    cy.visit(urls.warAtSeaURL)
+    cy.visit(Cypress.env('SiteHomeUrl'))
   })
 
   it('Can Find the USS Missouri by Website Navigation', () => {
