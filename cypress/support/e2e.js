@@ -15,8 +15,6 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-import './statCardPage'
-import './header'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

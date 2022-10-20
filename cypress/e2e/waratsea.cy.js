@@ -1,6 +1,17 @@
 /// <reference types="cypress" />
 
-import selectors from "../support/constants/selectors"
+import strings from '../constants/strings'
+import AdvancedSearchPage from '../PageObjects/AdvancedSearchPage'
+import CardDetailPage from '../PageObjects/CardDetailPage'
+import HeaderSection from '../PageObjects/HeaderSection'
+import HomePage from "../PageObjects/HomePage"
+import SearchResultsPage from "../PageObjects/SearchResultsPage"
+
+const advancedSearchPage = new AdvancedSearchPage()
+const cardDetailPage = new CardDetailPage()
+const headerSection = new HeaderSection()
+const homePage = new HomePage()
+const searchResultsPage = new SearchResultsPage()
 
 describe('War at Sea Card Database', () => {
   beforeEach(() => {
@@ -8,35 +19,33 @@ describe('War at Sea Card Database', () => {
   })
 
   it('Can Find the USS Missouri by Website Navigation', () => {
-    cy.get(selectors.usaCountryIcon).click()
-    cy.contains(selectors.missouriText).click()
-    cy.verifyMissouri()
+    homePage.clickUSAIcon()
+    searchResultsPage.clickUSSMissouri()
+    cardDetailPage.verifyMissouri()
   })
 
   it('Can Find the USS Missouri by Search Bar', () => {
-    cy.searchText('missouri')
-    cy.contains(selectors.missouriText).click()
-    cy.verifyMissouri()
+    cy.pause() //for debugging and troubleshooting
+    headerSection.searchText(strings.missouriShort)
+    searchResultsPage.clickUSSMissouri()
+    cardDetailPage.verifyMissouri()
   })
 
   it('Can Find the USS Missouri by Search Bar with Partial Text', () => {
-    cy.searchText('mis')
-    cy.contains(selectors.missouriText).click()
-    cy.verifyMissouri()
+    headerSection.searchText(strings.missouriPartial)
+    searchResultsPage.clickUSSMissouri()
+    cardDetailPage.verifyMissouri()
   })
 
   it('Can Find the USS Missouri by Advanced Search', () => {
-    cy.contains('[Advance]').click()
-    cy.get(selectors.countrySelect).select('United States')
-    cy.get(selectors.typeSelect).select('Battleship')
-    cy.get(selectors.raritySelect).select('Rare')
-    cy.get(selectors.advancedSearchButton).click()
-    cy.contains(selectors.missouriText).click()
-    cy.verifyMissouri()
+    headerSection.navigateToAdvanceSearch()
+    advancedSearchPage.filterUSABattleships()
+    searchResultsPage.clickUSSMissouri()
+    cardDetailPage.verifyMissouri()
   })
 
   it('Finds No Results with Gibberish Search Term', () => {
-    cy.searchText('asdfghjkl')
-    cy.get(selectors.resultsTableRows).should('have.length', 1) //only header row is present
+    headerSection.searchText(strings.gibberish)
+    searchResultsPage.checkTableShouldBeEmpty()
   })
 })
