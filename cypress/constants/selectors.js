@@ -1,7 +1,10 @@
 export default {
-    usaCountryIcon: 'a[href*="action=United States"]',
+    mainContent: '#content',
 
-    missouriText: 'USS Missouri (BB 63)',
+    searchBarInput: '.search input[type*="text"]',
+    searchBarButton: '.search input[type*="submit"]',
+
+    usaCountryIcon: 'a[href*="action=United States"]',
 
     resultsTableRows: '#content table tr',
 
